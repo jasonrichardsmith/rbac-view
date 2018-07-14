@@ -4,6 +4,8 @@ import (
 	"log"
 	"net/http"
 
+	_ "k8s.io/client-go/plugin/pkg/client/auth"
+
 	"github.com/jasonrichardsmith/rbac-view/client"
 	"github.com/jasonrichardsmith/rbac-view/matrix"
 	"github.com/jasonrichardsmith/rbac-view/render"
