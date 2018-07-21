@@ -1,0 +1,9 @@
+language: go
+go: 1.9
+services:
+- docker
+jobs:
+  include:
+    - stage: placeholder
+      script: make something
+

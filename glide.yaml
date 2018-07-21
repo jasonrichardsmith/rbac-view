@@ -1,0 +1,14 @@
+package: github.com/jasonrichardsmith/rbac-view
+import:
+- package: k8s.io/api
+  subpackages:
+  - rbac/v1
+- package: k8s.io/apimachinery
+  subpackages:
+  - pkg/apis/meta/v1
+- package: k8s.io/client-go
+  subpackages:
+  - kubernetes
+  - plugin/pkg/client/auth
+  - rest
+  - tools/clientcmd

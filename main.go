@@ -2,14 +2,13 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
 	"github.com/jasonrichardsmith/rbac-view/client"
 	"github.com/jasonrichardsmith/rbac-view/matrix"
 	"github.com/jasonrichardsmith/rbac-view/render"
-	"github.com/pkg/browser"
+	"github.com/jasonrichardsmith/rbac-view/render/controller"
 )
 
 func main() {
@@ -18,16 +17,14 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	m := matrix.New("ClusterRoles")
-	log.Print("building permissions matrix")
-	err = m.Build(c)
+	m := matrix.New(c)
+	var render render.Renderer
+	render, err = controller.New("json", m)
 	if err != nil {
 		log.Fatal(err)
 	}
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		render.Write(m, w)
-	})
-	browser.OpenURL("http://localhost:8800")
-	http.ListenAndServe(":8800", nil)
-
+	err = render.Render()
+	if err != nil {
+		log.Fatal(err)
+	}
 }
