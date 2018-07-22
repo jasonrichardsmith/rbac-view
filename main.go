@@ -1,3 +1,4 @@
+//go:generate fileb0x fileb0x.yaml
 package main
 
 import (
@@ -19,7 +20,7 @@ func main() {
 	}
 	m := matrix.New(c)
 	var render render.Renderer
-	render, err = controller.New("json", m)
+	render, err = controller.New("html", m)
 	if err != nil {
 		log.Fatal(err)
 	}

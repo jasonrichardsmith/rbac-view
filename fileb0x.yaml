@@ -1,0 +1,16 @@
+pkg: html
+dest: "./render/html/"
+fmt: true
+compression:
+  compress: false
+  method: ""
+output: "static.go"
+noprefix: true
+debug: false
+custom:
+  - files: 
+    - "frontend/index.html"
+    base: "frontend/"
+  - files: 
+    - "./frontend/dist"
+    base: "frontend/"

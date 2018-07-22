@@ -20,7 +20,12 @@ type HtmlRenderer struct {
 }
 
 func (hr *HtmlRenderer) Render() error {
-	http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/index.html", 301)
+	})
+	http.Handle("/index.html", Handler)
+	http.Handle("/dist/", Handler)
+	http.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request) {
 		jr := json.JsonRenderer{
 			Builder: hr.Builder,
 			Writer:  w,
