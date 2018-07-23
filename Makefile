@@ -31,13 +31,14 @@ buildnpmdocker:
 
 npmdep:
 	cd frontend; npm install
-godep:
+godep: godepfb
 	glide install
+	go generate
 godepfb:
 	go get -u github.com/UnnoTed/fileb0x
 buildnpm: npmdep
 	cd frontend; npm run build
-buildgo: godep godepfb
+buildgo: godep
 	go build -a -installsuffix cgo -o rbac_view
 distclean:
 	rm -rf vendor

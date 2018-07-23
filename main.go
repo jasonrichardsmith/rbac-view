@@ -2,6 +2,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
@@ -12,15 +13,24 @@ import (
 	"github.com/jasonrichardsmith/rbac-view/render/controller"
 )
 
-func main() {
+var (
+	rendertype string
+)
 
+func init() {
+
+	flag.StringVar(&rendertype, "render", "html", "render type: json, html")
+}
+
+func main() {
+	flag.Parse()
 	c, err := client.New()
 	if err != nil {
 		log.Fatal(err)
 	}
 	m := matrix.New(c)
 	var render render.Renderer
-	render, err = controller.New("html", m)
+	render, err = controller.New(rendertype, m)
 	if err != nil {
 		log.Fatal(err)
 	}

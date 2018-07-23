@@ -14,3 +14,9 @@ custom:
   - files: 
     - "./frontend/dist"
     base: "frontend/"
+  - files: 
+    - "./frontend/node_modules/bootstrap-vue/dist/bootstrap-vue.min.css"
+    base: "frontend/"
+  - files: 
+    - "./frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    base: "frontend/"

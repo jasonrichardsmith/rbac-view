@@ -21,7 +21,7 @@
              :filter="filter"
              @filtered="onFiltered"
     >
-      <template slot="rolename" slot-scope="row">{{row.value.first}} {{row.value.last}}</template>
+      <template slot="name" slot-scope="row">{{row.value.name}}</template>
       <template slot="isActive" slot-scope="row">{{row.value?'Yes :)':'No :('}}</template>
       <template slot="actions" slot-scope="row">
         <!-- We use @click.stop here to prevent a 'row-clicked' event from also happening -->
@@ -39,7 +39,7 @@
           </ul>
         </b-card>
       </template>
-        <template slot="HEAD_*" slot-scope="data">
+      <template slot-scope="data">
         <!-- A custom formatted footer cell  for field 'name' -->
         <div>{{data.label}}</div>
       </template>
@@ -60,10 +60,9 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   name: 'RbacTable',
-  props: ['tabletype'],
+  props: ['rbactable'],
   data () {
     return {
       items: [
@@ -104,20 +103,34 @@ export default {
       this.totalRows = filteredItems.length
       this.currentPage = 1
     },
-    getTableItems() {
-      axios({ method: "GET", "url": "/tables/" + this.tabletype + "/items",
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control' : 'no-cache'}
-      }).then(result => {
-          this.items = result.data
-      }).catch (error => {
-          console.log(error);
+    setTableHeaders (headers) {
+      var newheaders = []
+      newheaders = headers.map(function(val) {
+        return {key: val, label:'<div>' + val + '</div>'}
+      });
+      newheaders.sort(function(a, b){
+        if(a.key < b.key) return -1;
+        if(a.key > b.key) return 1;
+        return 0;
+      });
+      return newheaders
+    },
+    setRows (rows) {
+      return rows.map(function(val) {
+        var row = []
+        row = val.objects
+        row.name = {name: val.name, subjects: val.subjects}
+        return row
       });
     }
   },
-  mounted: function() {
-    this.getTableItems();
+  watch: {
+    rbactable: function (val) {
+      this.fields = this.setTableHeaders(val.objects)
+      this.fields.unshift({key: 'name', label:'RoleName'})
+      this.items = this.setRows(val.roles)
+      console.log(this.fields)
+    }
   }
 }
 </script>
