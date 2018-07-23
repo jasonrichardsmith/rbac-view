@@ -1,0 +1,1380 @@
+{
+  "ClusterRoles": {
+    "objects": [
+      "events",
+      "certificatesigningrequests/nodeclient",
+      "*",
+      "nodes",
+      "certificatesigningrequests/selfnodeclient",
+      "certificatesigningrequests",
+      "endpoints",
+      "services",
+      "pods",
+      "storageclasses",
+      "persistentvolumes",
+      "selfsubjectaccessreviews",
+      "selfsubjectrulesreviews",
+      "persistentvolumeclaims",
+      "nodes/status",
+      "volumeattachments",
+      "subjectaccessreviews",
+      "certificatesigningrequests/approval",
+      "certificatesigningrequests/status",
+      "cronjobs/finalizers",
+      "cronjobs",
+      "jobs",
+      "cronjobs/status",
+      "pods/binding",
+      "controllerrevisions",
+      "daemonsets/status",
+      "daemonsets",
+      "daemonsets/finalizers",
+      "replicasets",
+      "replicasets/status",
+      "replicasets/finalizers",
+      "deployments/finalizers",
+      "deployments/status",
+      "deployments",
+      "replicationcontrollers/status",
+      "replicationcontrollers/finalizers",
+      "replicationcontrollers",
+      "poddisruptionbudgets",
+      "statefulsets",
+      "poddisruptionbudgets/status",
+      "resourcequotas/status",
+      "endpoints/restricted",
+      "horizontalpodautoscalers",
+      "horizontalpodautoscalers/status",
+      "*/scale",
+      "services/proxy",
+      "serviceaccounts",
+      "services/status",
+      "jobs/finalizers",
+      "jobs/status",
+      "statefulsets/finalizers",
+      "statefulsets/status",
+      "namespaces/finalize",
+      "namespaces/status",
+      "namespaces",
+      "pods/status",
+      "persistentvolumes/status",
+      "secrets",
+      "persistentvolumeclaims/status",
+      "tokenreviews",
+      "bindings",
+      "localsubjectaccessreviews",
+      "pods/eviction",
+      "configmaps"
+    ],
+    "roles": [
+      {
+        "name": "cluster-admin",
+        "objects": {
+          "*": [
+            "*"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:masters"
+          }
+        ]
+      },
+      {
+        "name": "system:aws-cloud-provider",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get",
+            "patch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "aws-cloud-provider",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:certificates.k8s.io:certificatesigningrequests:nodeclient",
+        "objects": {
+          "certificatesigningrequests/nodeclient": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:bootstrappers:kubeadm:default-node-token"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:pod-garbage-collector",
+        "objects": {
+          "nodes": [
+            "list"
+          ],
+          "pods": [
+            "delete",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "pod-garbage-collector",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:node-proxier",
+        "objects": {
+          "endpoints": [
+            "list",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get"
+          ],
+          "services": [
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "kube-proxy",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:certificates.k8s.io:certificatesigningrequests:selfnodeclient",
+        "objects": {
+          "certificatesigningrequests/selfnodeclient": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:nodes"
+          }
+        ]
+      },
+      {
+        "name": "system:node-bootstrapper",
+        "objects": {
+          "certificatesigningrequests": [
+            "create",
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:bootstrappers:kubeadm:default-node-token"
+          }
+        ]
+      },
+      {
+        "name": "system:volume-scheduler",
+        "objects": {
+          "persistentvolumes": [
+            "get",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ],
+          "storageclasses": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "User",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:kube-scheduler"
+          }
+        ]
+      },
+      {
+        "name": "system:basic-user",
+        "objects": {
+          "selfsubjectaccessreviews": [
+            "create"
+          ],
+          "selfsubjectrulesreviews": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:authenticated"
+          },
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:unauthenticated"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:attachdetach-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "nodes/status": [
+            "patch",
+            "update"
+          ],
+          "persistentvolumeclaims": [
+            "list",
+            "watch"
+          ],
+          "persistentvolumes": [
+            "list",
+            "watch"
+          ],
+          "pods": [
+            "list",
+            "watch"
+          ],
+          "volumeattachments": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "attachdetach-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:certificate-controller",
+        "objects": {
+          "certificatesigningrequests": [
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ],
+          "certificatesigningrequests/approval": [
+            "update"
+          ],
+          "certificatesigningrequests/status": [
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "subjectaccessreviews": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "certificate-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "cluster-admin",
+        "objects": {
+          "*": [
+            "*"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "default",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:clusterrole-aggregation-controller",
+        "objects": {
+          "*": [
+            "*"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "clusterrole-aggregation-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:pv-protection-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "persistentvolumes": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "pv-protection-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:cronjob-controller",
+        "objects": {
+          "cronjobs": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "cronjobs/finalizers": [
+            "update"
+          ],
+          "cronjobs/status": [
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "jobs": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ],
+          "pods": [
+            "delete",
+            "list"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "cronjob-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:pvc-protection-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "persistentvolumeclaims": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "pods": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "pvc-protection-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:daemon-set-controller",
+        "objects": {
+          "controllerrevisions": [
+            "create",
+            "delete",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ],
+          "daemonsets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "daemonsets/finalizers": [
+            "update"
+          ],
+          "daemonsets/status": [
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "list",
+            "watch"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "list",
+            "patch",
+            "watch"
+          ],
+          "pods/binding": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "daemon-set-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:replicaset-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "list",
+            "patch",
+            "watch"
+          ],
+          "replicasets": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "replicasets/finalizers": [
+            "update"
+          ],
+          "replicasets/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "replicaset-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:deployment-controller",
+        "objects": {
+          "deployments": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "deployments/finalizers": [
+            "update"
+          ],
+          "deployments/status": [
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "pods": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "replicasets": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "deployment-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:replication-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "list",
+            "patch",
+            "watch"
+          ],
+          "replicationcontrollers": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "replicationcontrollers/finalizers": [
+            "update"
+          ],
+          "replicationcontrollers/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "replication-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:disruption-controller",
+        "objects": {
+          "deployments": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "poddisruptionbudgets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "poddisruptionbudgets/status": [
+            "update"
+          ],
+          "replicasets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "replicationcontrollers": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "statefulsets": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "disruption-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:resourcequota-controller",
+        "objects": {
+          "*": [
+            "list",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "resourcequotas/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "resourcequota-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:endpoint-controller",
+        "objects": {
+          "endpoints": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "update"
+          ],
+          "endpoints/restricted": [
+            "create"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "pods": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "services": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "endpoint-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:route-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "list",
+            "watch"
+          ],
+          "nodes/status": [
+            "patch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "route-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:generic-garbage-collector",
+        "objects": {
+          "*": [
+            "delete",
+            "get",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "generic-garbage-collector",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:horizontal-pod-autoscaler",
+        "objects": {
+          "*": [
+            "get",
+            "list"
+          ],
+          "*/scale": [
+            "get",
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "horizontalpodautoscalers": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "horizontalpodautoscalers/status": [
+            "update"
+          ],
+          "pods": [
+            "list"
+          ],
+          "services/proxy": [
+            "get"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "horizontal-pod-autoscaler",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:service-account-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "serviceaccounts": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "service-account-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:service-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "list",
+            "watch"
+          ],
+          "services": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "services/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "service-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:job-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "jobs": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "jobs/finalizers": [
+            "update"
+          ],
+          "jobs/status": [
+            "update"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "list",
+            "patch",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "job-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:statefulset-controller",
+        "objects": {
+          "controllerrevisions": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "persistentvolumeclaims": [
+            "create",
+            "get"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "get",
+            "patch",
+            "update"
+          ],
+          "statefulsets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "statefulsets/finalizers": [
+            "update"
+          ],
+          "statefulsets/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "statefulset-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:namespace-controller",
+        "objects": {
+          "*": [
+            "delete",
+            "deletecollection",
+            "get",
+            "list"
+          ],
+          "namespaces": [
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ],
+          "namespaces/finalize": [
+            "update"
+          ],
+          "namespaces/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "namespace-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:ttl-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "list",
+            "patch",
+            "update",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "ttl-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:node-controller",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "delete",
+            "get",
+            "list",
+            "patch",
+            "update"
+          ],
+          "nodes/status": [
+            "patch",
+            "update"
+          ],
+          "pods": [
+            "delete",
+            "list"
+          ],
+          "pods/status": [
+            "update"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "node-controller",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:controller:persistent-volume-binder",
+        "objects": {
+          "endpoints": [
+            "create",
+            "delete",
+            "get"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get",
+            "list"
+          ],
+          "persistentvolumeclaims": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "persistentvolumeclaims/status": [
+            "update"
+          ],
+          "persistentvolumes": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "persistentvolumes/status": [
+            "update"
+          ],
+          "pods": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ],
+          "secrets": [
+            "get"
+          ],
+          "services": [
+            "create",
+            "delete",
+            "get"
+          ],
+          "storageclasses": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "persistent-volume-binder",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:discovery",
+        "objects": {},
+        "subjects": [
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:authenticated"
+          },
+          {
+            "kind": "Group",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:unauthenticated"
+          }
+        ]
+      },
+      {
+        "name": "system:kube-controller-manager",
+        "objects": {
+          "*": [
+            "list",
+            "watch"
+          ],
+          "endpoints": [
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "namespaces": [
+            "get"
+          ],
+          "secrets": [
+            "update"
+          ],
+          "serviceaccounts": [
+            "update"
+          ],
+          "tokenreviews": [
+            "create"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "User",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:kube-controller-manager"
+          }
+        ]
+      },
+      {
+        "name": "system:kube-dns",
+        "objects": {
+          "endpoints": [
+            "list",
+            "watch"
+          ],
+          "services": [
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "kube-dns",
+            "namespace": "kube-system"
+          }
+        ]
+      },
+      {
+        "name": "system:kube-scheduler",
+        "objects": {
+          "bindings": [
+            "create"
+          ],
+          "endpoints": [
+            "delete",
+            "get",
+            "patch",
+            "update"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "persistentvolumeclaims": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "persistentvolumes": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "poddisruptionbudgets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "pods": [
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ],
+          "pods/binding": [
+            "create"
+          ],
+          "pods/status": [
+            "patch",
+            "update"
+          ],
+          "replicasets": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "replicationcontrollers": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "services": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "statefulsets": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "User",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:kube-scheduler"
+          }
+        ]
+      },
+      {
+        "name": "system:node",
+        "objects": {
+          "certificatesigningrequests": [
+            "create",
+            "get",
+            "list",
+            "watch"
+          ],
+          "configmaps": [
+            "get"
+          ],
+          "endpoints": [
+            "get"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "localsubjectaccessreviews": [
+            "create"
+          ],
+          "nodes": [
+            "delete",
+            "patch",
+            "update"
+          ],
+          "nodes/status": [
+            "patch",
+            "update"
+          ],
+          "persistentvolumeclaims": [
+            "get"
+          ],
+          "persistentvolumes": [
+            "get"
+          ],
+          "pods": [
+            "create",
+            "delete"
+          ],
+          "pods/eviction": [
+            "create"
+          ],
+          "pods/status": [
+            "update"
+          ],
+          "secrets": [
+            "get"
+          ],
+          "services": [
+            "get",
+            "list",
+            "watch"
+          ],
+          "subjectaccessreviews": [
+            "create"
+          ],
+          "tokenreviews": [
+            "create"
+          ],
+          "volumeattachments": [
+            "get"
+          ]
+        },
+        "subjects": null
+      },
+      {
+        "name": "system:node-proxier",
+        "objects": {
+          "endpoints": [
+            "list",
+            "watch"
+          ],
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "nodes": [
+            "get"
+          ],
+          "services": [
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "User",
+            "apiGroup": "rbac.authorization.k8s.io",
+            "name": "system:kube-proxy"
+          }
+        ]
+      },
+      {
+        "name": "system:persistent-volume-provisioner",
+        "objects": {
+          "events": [
+            "create",
+            "patch",
+            "update"
+          ],
+          "persistentvolumeclaims": [
+            "get",
+            "list",
+            "update",
+            "watch"
+          ],
+          "persistentvolumes": [
+            "create",
+            "delete",
+            "get",
+            "list",
+            "watch"
+          ],
+          "storageclasses": [
+            "get",
+            "list",
+            "watch"
+          ]
+        },
+        "subjects": [
+          {
+            "kind": "ServiceAccount",
+            "name": "storage-provisioner",
+            "namespace": "kube-system"
+          }
+        ]
+      }
+    ]
+  }
+}
