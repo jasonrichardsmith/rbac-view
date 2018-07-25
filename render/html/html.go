@@ -25,6 +25,7 @@ func (hr *HtmlRenderer) Render() error {
 	})
 	http.Handle("/index.html", Handler)
 	http.Handle("/dist/", Handler)
+	http.Handle("/node_modules/", Handler)
 	http.HandleFunc("/json", func(w http.ResponseWriter, r *http.Request) {
 		jr := json.JsonRenderer{
 			Builder: hr.Builder,

@@ -1,8 +1,8 @@
 <template>
-  <div id="header"> <h1>RBAC
+  <span id="header"> <span>RBAC
     <font-awesome-icon icon="eye" size="2x"/>
-    </h1>
-  </div>
+    </span>
+  </span>
 </template>
 
 <script>
