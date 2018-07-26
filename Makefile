@@ -39,7 +39,7 @@ godepfb:
 buildnpm: npmdep
 	cd frontend; npm run build
 buildgo: godep
-	go build -a -installsuffix cgo -o rbac_view
+	go build -a -installsuffix cgo -o rbac-view
 distclean:
 	rm -rf vendor
 	rm -rf frontend/node_modules
@@ -47,5 +47,5 @@ clean: distclean
 	rm -f rbac_view
 	rm frontend/dist/build.css frontend/dist/build.js
 
-buildalldocker: buildnpmdocker buildgodocker
+builddocker: buildnpmdocker buildgodocker
 build: buildnpm buildgo
