@@ -62,9 +62,9 @@ npm run dev
 ```
 
 ## Built with
-[Go](https://golang.org/)
-[npm](https://www.npmjs.com/)
-[Vue.js](https://vuejs.org/)
-[fileb0x](https://github.com/UnnoTed/fileb0x)
+- [Go](https://golang.org/)
+- [npm](https://www.npmjs.com/)
+- [Vue.js](https://vuejs.org/)
+- [fileb0x](https://github.com/UnnoTed/fileb0x)
 
 
