@@ -1,6 +1,7 @@
 package html
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -36,6 +37,7 @@ func (hr *HtmlRenderer) Render() error {
 			log.Println(err)
 		}
 	})
+	fmt.Println("serving RBAC View and http://localhost:8800")
 	return http.ListenAndServe(":8800", nil)
 
 }
