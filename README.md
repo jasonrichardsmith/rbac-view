@@ -34,7 +34,7 @@ At the end you should have a binary called rbac-view
 
 ## Running
 
-The binary currently only supports the following output modes
+The binary currently only supports the following output modes, and renders based on access to a Kuberentes cluster.
 
 - json to STDOUT
 - HTML server
@@ -60,3 +60,11 @@ The frontend folder has a generated json file that you can develop against, so f
 ```bash
 npm run dev
 ```
+
+## Built with
+[Go](https://golang.org/)
+[npm](https://www.npmjs.com/)
+[Vue.js](https://vuejs.org/)
+[fileb0x](https://github.com/UnnoTed/fileb0x)
+
+
