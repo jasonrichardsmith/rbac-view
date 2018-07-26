@@ -44,6 +44,7 @@ distclean:
 	rm -rf vendor
 	rm -rf frontend/node_modules
 clean: distclean
-	rm -rf rbac_view
+	rm -f rbac_view
 	rm frontend/dist/build.css frontend/dist/build.js
 
+buildalldocker: buildnpmdocker buildgodocker

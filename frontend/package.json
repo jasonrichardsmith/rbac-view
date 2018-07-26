@@ -30,8 +30,7 @@
     "i": "^0.3.6",
     "jquery": "^3.3.1",
     "npm": "^6.2.0",
-    "vue": "^2.0.1",
-    "vue-good-table": "^2.11.0"
+    "vue": "^2.0.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.1.0",

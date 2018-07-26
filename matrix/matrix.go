@@ -22,14 +22,20 @@ func New(c client.Client) Builder {
 func (mb MatrixBuilder) Build() (Matrices, error) {
 	ms := Matrices{
 		ClusterRoles: NewMatrix(),
+		Roles:        NewMatrix(),
 	}
 	err := ms.ClusterRoles.getClusterLevel(mb.client)
-	return ms, err
+	if err != nil {
+		return ms, err
+	}
+	err = ms.Roles.getNamespaceLevel(mb.client)
+	return ms, nil
 
 }
 
 type Matrices struct {
-	ClusterRoles Matrix `jason:"clusterRoles"`
+	ClusterRoles Matrix `json:"clusterRoles"`
+	Roles        Matrix `json:"roles"`
 }
 
 type Matrix struct {
@@ -102,6 +108,42 @@ func (m *Matrix) getClusterRole(c client.Client, rb rbac.ClusterRoleBinding) (er
 	r.Name = rb.RoleRef.Name
 	if rb.RoleRef.Kind == "ClusterRole" {
 		cr, err := c.GetClusterRole(rb.RoleRef.Name)
+		if err != nil {
+			return err
+		}
+		for _, rule := range cr.Rules {
+			go m.addObjects(rule.Resources)
+			for _, o := range rule.Resources {
+				r.Objects[o] = rule.Verbs
+			}
+		}
+	}
+	m.rolemutex.Lock()
+	m.Roles = append(m.Roles, r)
+	m.rolemutex.Unlock()
+	return nil
+}
+
+func (m *Matrix) getNamespaceLevel(c client.Client) (err error) {
+	rbs, err := c.GetRoleBindings()
+	if err != nil {
+		return err
+	}
+	for _, rb := range rbs {
+		m.wg.Add(1)
+		go m.getRole(c, rb)
+	}
+	m.wg.Wait()
+	return
+}
+
+func (m *Matrix) getRole(c client.Client, rb rbac.RoleBinding) (err error) {
+	defer m.wg.Done()
+	r := NewRole()
+	r.Subjects = rb.Subjects
+	r.Name = rb.RoleRef.Name
+	if rb.RoleRef.Kind == "Role" {
+		cr, err := c.GetRole(rb.RoleRef.Name, rb.ObjectMeta.Namespace)
 		if err != nil {
 			return err
 		}

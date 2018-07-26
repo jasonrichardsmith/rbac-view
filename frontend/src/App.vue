@@ -15,7 +15,7 @@
           <rbac-table :rbactable="ClusterRoles"></rbac-table>
       </b-tab>
       <b-tab title="Roles">
-          <rbac-table :rbactable="ClusterRoles"></rbac-table>
+          <rbac-table :rbactable="Roles"></rbac-table>
       </b-tab>
     </b-tabs>
   </div>
@@ -43,15 +43,15 @@ export default {
   },
   methods: {
     getTableItems() {
-      axios({ method: "GET", "url": "/test_data/test.json",
+      axios({ method: "GET", "url": "/allroles.json",
         headers: {
           'Content-Type': 'application/json',
           'Cache-Control' : 'no-cache'}
       }).then(result => {
           var items
           items = result.data
-          this.ClusterRoles = items.ClusterRoles
-          this.Roles = items.ClusterRoles
+          this.ClusterRoles = items.clusterRoles
+          this.Roles = items.roles
           console.log(this.items)
       }).catch (error => {
           console.log(error);
