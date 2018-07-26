@@ -1,5 +1,6 @@
 <template>
   <b-container fluid v-bind:style="tablePadding">
+    <h2> {{ title }} </h2>
     <table class="rbactable table table-striped table-bordered">
       <thead>
         <tr>
@@ -17,9 +18,11 @@
         <tr v-for="(item, index) in items">
           <td v-for="field in fields">
             <div v-if="field.key == 'name'">
-              <div>{{ item.name }}</div>
+              <div>{{ item.name }}
+              </div>
+              <div v-if="item.namespace">Namespace: {{item.namespace}}</div>
               <b-btn v-b-modal="modalId(index)">Subjects</b-btn>
-              <b-modal :id="'modal' + index" :title="'Subjects for ' + item.name" size="lg">
+              <b-modal :id="'modal' + title + index" :title="'Subjects for ' + item.name" size="lg" ok-only >
                 <div v-for="subject in item.subjects">
                   {{ subject.kind }} - {{ subject.name }}
                 </div>
@@ -43,7 +46,7 @@ import Actions from './Actions.vue'
 
 export default {
   name: 'RbacTable',
-  props: ['rbactable'],
+  props: ['rbactable', 'title'],
   data () {
     return {
       items: [],
@@ -70,7 +73,6 @@ export default {
         if(a.key > b.key) return 1;
         return 0;
       });
-      console.log(this.longestField) 
       var padding = Math.sqrt(Math.pow(this.longestField, 2)/2)
       this.tablePadding = {
         paddingTop: padding + "ex",
@@ -78,7 +80,8 @@ export default {
       return newheaders
     },
     modalId(i) {
-      return 'modal' + i;
+      console.log(this.title)
+      return 'modal' + this.title +  i;
     }
   },
   computed: {

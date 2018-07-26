@@ -56,9 +56,10 @@ func NewMatrix() Matrix {
 }
 
 type Role struct {
-	Name     string              `json:"name"`
-	Objects  map[string][]string `json:"objects"`
-	Subjects []rbac.Subject      `json:"subjects"`
+	Name      string              `json:"name"`
+	Objects   map[string][]string `json:"objects"`
+	Subjects  []rbac.Subject      `json:"subjects"`
+	Namespace string              `json:"namespace,omitempty"`
 }
 
 func NewRole() Role {
@@ -153,6 +154,7 @@ func (m *Matrix) getRole(c client.Client, rb rbac.RoleBinding) (err error) {
 				r.Objects[o] = rule.Verbs
 			}
 		}
+		r.Namespace = rb.ObjectMeta.Namespace
 	}
 	m.rolemutex.Lock()
 	m.Roles = append(m.Roles, r)

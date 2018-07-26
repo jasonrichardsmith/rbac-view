@@ -48,3 +48,4 @@ clean: distclean
 	rm frontend/dist/build.css frontend/dist/build.js
 
 buildalldocker: buildnpmdocker buildgodocker
+build: buildnpm buildgo

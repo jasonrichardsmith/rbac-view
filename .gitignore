@@ -1,2 +1,3 @@
 vendor
 rbac_view
+render/html/static.go

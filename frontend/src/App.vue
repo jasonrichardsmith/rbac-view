@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <b-alert :show="showLoading" variant="primary"><strong>Roles are being retrieved from Kubernetes</strong></b-alert>
+    <b-alert :show="loadingError" variant="danger"><strong>There was an error retrieving roles from Kubernetes</strong></b-alert>
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
@@ -12,10 +14,10 @@
     </nav>
     <b-tabs>
       <b-tab title="Cluster Roles">
-          <rbac-table :rbactable="ClusterRoles"></rbac-table>
+          <rbac-table :rbactable="ClusterRoles" title="ClusterRoles"></rbac-table>
       </b-tab>
       <b-tab title="Roles">
-          <rbac-table :rbactable="Roles"></rbac-table>
+          <rbac-table :rbactable="Roles" title="Roles"></rbac-table>
       </b-tab>
     </b-tabs>
   </div>
@@ -32,7 +34,9 @@ export default {
   data: function () {
     return {
       ClusterRoles: [] ,
-      Rolels: []
+      Rolels: [],
+      showLoading: false,
+      loadingError: false
     };
 
   },
@@ -43,6 +47,8 @@ export default {
   },
   methods: {
     getTableItems() {
+      this.showLoading=true;
+      var vm = this;
       axios({ method: "GET", "url": "/allroles.json",
         headers: {
           'Content-Type': 'application/json',
@@ -52,8 +58,10 @@ export default {
           items = result.data
           this.ClusterRoles = items.clusterRoles
           this.Roles = items.roles
-          console.log(this.items)
+          this.showLoading=false;
       }).catch (error => {
+          this.showLoading=false;
+          this.loadingError=true;
           console.log(error);
       });
     }
