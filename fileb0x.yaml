@@ -1,0 +1,22 @@
+pkg: html
+dest: "./render/html/"
+fmt: true
+compression:
+  compress: false
+  method: ""
+output: "static.go"
+noprefix: true
+debug: false
+custom:
+  - files: 
+    - "frontend/index.html"
+    base: "frontend/"
+  - files: 
+    - "./frontend/dist"
+    base: "frontend/"
+  - files: 
+    - "./frontend/node_modules/bootstrap-vue/dist/bootstrap-vue.min.css"
+    base: "frontend/"
+  - files: 
+    - "./frontend/node_modules/bootstrap/dist/css/bootstrap.min.css"
+    base: "frontend/"
