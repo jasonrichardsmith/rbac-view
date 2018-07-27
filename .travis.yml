@@ -4,7 +4,7 @@ services:
 - docker
 
 script:
-  - make dockerbuild
+  - make builddocker
 
 deploy:
   - provider: releases
