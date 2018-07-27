@@ -10,7 +10,7 @@ buildgodocker:
 	--entrypoint '/bin/bash' \
 	jasonrichardsmith/glide_builder:2 \
 	-c "make buildgo && \
-	chown $(USERID):$(GROUPID) rbac_view && \
+	chown $(USERID):$(GROUPID) rbac-view && \
 	chown -R $(USERID):$(GROUPID) vendor"
 
 depgodocker:
@@ -44,7 +44,7 @@ distclean:
 	rm -rf vendor
 	rm -rf frontend/node_modules
 clean: distclean
-	rm -f rbac_view
+	rm -f rbac-view
 	rm frontend/dist/build.css frontend/dist/build.js
 
 builddocker: buildnpmdocker buildgodocker
