@@ -10,7 +10,7 @@ buildgodocker:
 	--entrypoint '/bin/bash' \
 	jasonrichardsmith/glide_builder:2 \
 	-c "make buildgo && \
-	chown $(USERID):$(GROUPID) rbac-view && \
+	chown -R $(USERID):$(GROUPID) bin && \
 	chown -R $(USERID):$(GROUPID) vendor"
 
 depgodocker:
@@ -39,12 +39,17 @@ godepfb:
 buildnpm: npmdep
 	cd frontend; npm run build
 buildgo: godep
-	go build -a -installsuffix cgo -o rbac-view
+	mkdir -p bin/linux
+	mkdir bin/windows
+	mkdir bin/darwin
+	GOOS=linux go build -a -installsuffix cgo -o bin/linux/rbac-view
+	GOOS=windows go build -a -installsuffix cgo -o bin/windows/rbac-view
+	GOOS=darwin go build -a -installsuffix cgo -o bin/darwin/rbac-view
 distclean:
 	rm -rf vendor
 	rm -rf frontend/node_modules
 clean: distclean
-	rm -f rbac-view
+	rm -rf bin
 	rm frontend/dist/build.css frontend/dist/build.js
 
 builddocker: buildnpmdocker buildgodocker
