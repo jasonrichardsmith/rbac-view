@@ -15,5 +15,6 @@ deploy:
       - rbac-view.${TRAVIS_TAG}.linux.tar.gz
       - rbac-view.${TRAVIS_TAG}.windows.tar.gz
       - rbac-view.${TRAVIS_TAG}.darwin.tar.gz
+    skip_cleanup: true
     on:
       tags: true
