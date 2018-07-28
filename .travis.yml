@@ -5,12 +5,14 @@ services:
 
 script:
   - make builddocker
+  - TAG=${TRAVIS_TAG} make releases
 
 deploy:
   - provider: releases
     api_key: ${GITHUB_TOKEN}
-    file: bin
-    skip_cleanup: true
-    file_glob: true
+    files:
+      - ${TRAVIS_TAG}.linux.tar.gz
+      - ${TRAVIS_TAG}.windows.tar.gz
+      - ${TRAVIS_TAG}.darwin.tar.gz
     on:
       tags: true
