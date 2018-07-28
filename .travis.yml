@@ -2,14 +2,10 @@ language: go
 go: 1.9
 services:
 - docker
-jobs:
-  include:
-    - stage: build binaries
-      script: make builddocker
-    - stage: tar releases
-      script: TAG=$TRAVIS_BRANCH make releases
-      on:
-        tags: true
+
+script: 
+  - make builddocker
+  - if [ -n "$TRAVIS_TAG" ]; TAG=$TRAVIS_TAG make releases; fi 
 
 deploy:
   - provider: releases
