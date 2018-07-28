@@ -56,6 +56,6 @@ builddocker: buildnpmdocker buildgodocker
 build: buildnpm buildgo
 
 releases: 
-	tar -czvf $(TAG).linux.tar.gz bin/linux/rbac-view
-	tar -czvf $(TAG).windows.tar.gz bin/windows/rbac-view
-	tar -czvf $(TAG).darwin.tar.gz bin/darwin/rbac-view
+	tar -czvf rbac-view.$(TAG).linux.tar.gz bin/linux/rbac-view
+	tar -czvf rbac-view.$(TAG).windows.tar.gz bin/windows/rbac-view
+	tar -czvf rbac-view.$(TAG).darwin.tar.gz bin/darwin/rbac-view

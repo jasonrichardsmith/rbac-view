@@ -2,17 +2,22 @@ language: go
 go: 1.9
 services:
 - docker
-
-script:
-  - make builddocker
-  - TAG=${TRAVIS_TAG} make releases
+jobs:
+  include:
+    - stage: build binaries
+      script: make builddocker
+    - stage: tar releases
+      script: TAG=$TRAVIS_BRANCH make releases
+      on:
+        tags: true
 
 deploy:
   - provider: releases
+    prerelease: true
     api_key: ${GITHUB_TOKEN}
     files:
-      - ${TRAVIS_TAG}.linux.tar.gz
-      - ${TRAVIS_TAG}.windows.tar.gz
-      - ${TRAVIS_TAG}.darwin.tar.gz
+      - rbac-view.${TRAVIS_TAG}.linux.tar.gz
+      - rbac-view.${TRAVIS_TAG}.windows.tar.gz
+      - rbac-view.${TRAVIS_TAG}.darwin.tar.gz
     on:
       tags: true
