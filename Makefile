@@ -40,8 +40,8 @@ buildnpm: npmdep
 	cd frontend; npm run build
 buildgo: godep
 	mkdir -p bin/linux
-	mkdir bin/windows
-	mkdir bin/darwin
+	mkdir -p bin/windows
+	mkdir -p bin/darwin
 	GOOS=linux go build -a -installsuffix cgo -o bin/linux/rbac-view
 	GOOS=windows go build -a -installsuffix cgo -o bin/windows/rbac-view
 	GOOS=darwin go build -a -installsuffix cgo -o bin/darwin/rbac-view
@@ -54,3 +54,8 @@ clean: distclean
 
 builddocker: buildnpmdocker buildgodocker
 build: buildnpm buildgo
+
+releases: 
+	tar -czvf rbac-view.$(TAG).linux.tar.gz bin/linux/rbac-view
+	tar -czvf rbac-view.$(TAG).windows.tar.gz bin/windows/rbac-view
+	tar -czvf rbac-view.$(TAG).darwin.tar.gz bin/darwin/rbac-view

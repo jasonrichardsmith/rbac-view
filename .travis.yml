@@ -3,14 +3,17 @@ go: 1.9
 services:
 - docker
 
-script:
+script: 
   - make builddocker
+  - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make releases; fi 
 
 deploy:
   - provider: releases
+    prerelease: true
     api_key: ${GITHUB_TOKEN}
-    file: bin
-    skip_cleanup: true
-    file_glob: true
+    files:
+      - rbac-view.${TRAVIS_TAG}.linux.tar.gz
+      - rbac-view.${TRAVIS_TAG}.windows.tar.gz
+      - rbac-view.${TRAVIS_TAG}.darwin.tar.gz
     on:
       tags: true
