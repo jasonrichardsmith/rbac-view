@@ -1,4 +1,4 @@
-
+[![Build Status](https://travis-ci.org/jasonrichardsmith/rbac-view.svg?branch=master)](https://travis-ci.org/jasonrichardsmith/rbac-view)
 
 # RBAC View
 
@@ -30,7 +30,13 @@ If not but you have Docker, you can run:
 make builddocker
 ```
 
-At the end you should have a binary called rbac-view
+At the end you should have a binary called rbac-view in the operating system specific folders under bin.
+
+```
+bin/linux/rbac-view
+bin/windows/rbac-view
+bin/darwin/rbac-view
+```
 
 ## Running
 
