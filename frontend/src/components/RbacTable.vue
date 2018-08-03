@@ -1,5 +1,14 @@
 <template>
-    <b-container fluid v-bind:style="tablePadding">
+    <b-container fluid  >
+        <b-row>
+            <b-col sm="3">
+                <div class="search-wrapper">
+                    <label> <font-awesome-icon icon="search" /></label>
+                    <input type="text" v-model="searchRoles" placeholder="Search Roles.."/>
+                </div>
+            </b-col>
+        </b-row>
+        <b-row v-bind:style="tablePadding">
         <h2> {{ title }} </h2>
         <table class="rbactable table table-striped table-bordered">
             <thead>
@@ -15,7 +24,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr v-for="(item, index) in items">
+            <tr v-for="(item, index) in filteredRoles">
                 <td v-for="field in fields">
                     <div v-if="field.key === 'name'">
                         <p>{{ item.name }}</p>
@@ -36,6 +45,7 @@
             </tr>
             </tbody>
         </table>
+        </b-row>
     </b-container>
 </template>
 
@@ -51,10 +61,18 @@
                 fields: [],
                 longestField: 0,
                 tablePadding: {},
+                searchRoles: '',
             }
         },
         components: {
             Actions
+        },
+        computed:{
+            filteredRoles() {
+                return this.items.filter(item => {
+                    return item.name.toLowerCase().includes(this.searchRoles.toLowerCase())
+                })
+            },
         },
         methods: {
             setTableHeaders: function (headers) {
@@ -97,6 +115,7 @@
 </script>
 
 <style lang='scss'>
+
     .rbactable {
         border: none;
         border-collapse: collapse;
@@ -121,5 +140,25 @@
         }
     }
 
+
+</style>
+
+<style lang='scss' scoped>
+    .row {
+        margin: 0;
+    }
+    input {
+        border: none;
+        width: 80%;
+        padding-left: 2%;
+        &:focus {
+            outline: none;
+        }
+    }
+    .search-wrapper {
+        border-bottom: 1px solid silver;
+        padding-left: 1%;
+        margin: 5% 0 -20% 0;
+    }
 
 </style>
