@@ -1,50 +1,63 @@
 <template>
-    <b-container fluid  >
+    <b-container fluid>
         <b-row>
             <b-col sm="3">
                 <div class="search-wrapper">
-                    <label> <font-awesome-icon icon="search" /></label>
-                    <input type="text" v-model="searchRoles" placeholder="Search Roles.."/>
+                    <div class="search-form">
+                        <label>
+                            <font-awesome-icon icon="search"/>
+                        </label>
+                        <input type="text" v-model="searchRoles" placeholder="Search Roles.."/>
+                    </div>
+                    <br>
+                    <div class="search-form">
+                        <label>
+                            <font-awesome-icon icon="search"/>
+                        </label>
+                        <input type="text" v-model="searchFields" placeholder="Search Fields.."/>
+                    </div>
                 </div>
             </b-col>
         </b-row>
         <b-row v-bind:style="tablePadding">
-        <h2> {{ title }} </h2>
-        <table class="rbactable table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th v-for="field in fields">
+            <h2> {{ title }} </h2>
+            <table class="rbactable table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th v-for="field in filteredFields">
                     <span v-if="field.key === 'name'">
                       {{ field.label }}
                     </span>
-                    <span v-else>
+                        <span v-else>
                       <label>{{ field.label }}</label>
                     </span>
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(item, index) in filteredRoles">
-                <td v-for="field in fields">
-                    <div v-if="field.key === 'name'">
-                        <p>{{ item.name }}</p>
-                        <p v-if="item.namespace">Namespace: {{item.namespace}}</p>
-                        <b-btn v-b-modal="modalId(index)">Subjects</b-btn>
-                        <b-modal :id="'modal' + title + index" :title="'Subjects for ' + item.name" size="lg" ok-only>
-                            <div v-for="subject in item.subjects">
-                                {{ subject.kind }} - {{ subject.name }}
-                            </div>
-                        </b-modal>
-                    </div>
-                    <div v-else>
-                        <div v-for="action in item.objects[field.key]">
-                            <actions :action="action"></actions>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(item, index) in filteredRoles">
+                    <td v-for="field in filteredFields">
+                        <div v-if="field.key === 'name'">
+                            <p>{{ item.name }}</p>
+                            <p v-if="item.namespace">Namespace: {{item.namespace}}</p>
+                            <b-btn v-b-modal="modalId(index)">Subjects</b-btn>
+                            <b-modal :id="'modal' + title + index" :title="'Subjects for ' + item.name" size="lg"
+                                     ok-only>
+                                <div v-for="subject in item.subjects">
+
+                                    {{ subject.kind }} - {{ subject.name }}
+                                </div>
+                            </b-modal>
                         </div>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                        <div v-else>
+                            <div v-for="action in item.objects[field.key]">
+                                <actions :action="action"></actions>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </b-row>
     </b-container>
 </template>
@@ -62,17 +75,23 @@
                 longestField: 0,
                 tablePadding: {},
                 searchRoles: '',
+                searchFields: ''
             }
         },
         components: {
             Actions
         },
-        computed:{
+        computed: {
             filteredRoles() {
                 return this.items.filter(item => {
                     return item.name.toLowerCase().includes(this.searchRoles.toLowerCase())
                 })
             },
+            filteredFields() {
+                return this.fields.filter(field => {
+                    return (field.key === 'name') ? field.key : field.key.toLowerCase().includes(this.searchFields.toLowerCase())
+                })
+            }
         },
         methods: {
             setTableHeaders: function (headers) {
@@ -147,18 +166,21 @@
     .row {
         margin: 0;
     }
-    input {
-        border: none;
-        width: 80%;
-        padding-left: 2%;
-        &:focus {
-            outline: none;
-        }
-    }
+
     .search-wrapper {
-        border-bottom: 1px solid silver;
-        padding-left: 1%;
         margin: 5% 0 -20% 0;
+        .search-form {
+            border-bottom: 1px solid silver;
+            padding-left: 1%;
+            input {
+                border: none;
+                width: 80%;
+                padding-left: 2%;
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
     }
 
 </style>
