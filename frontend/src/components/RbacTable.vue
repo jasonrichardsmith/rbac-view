@@ -20,7 +20,7 @@
             </b-col>
         </b-row>
         <b-row v-bind:style="tablePadding">
-            <h2> {{ title }} </h2>
+            <h2 class="title"> {{ title }} </h2>
             <table class="rbactable table table-striped table-bordered">
                 <thead>
                 <tr>
@@ -165,10 +165,16 @@
 <style lang='scss' scoped>
     .row {
         margin: 0;
+        .table{
+            width: auto;
+        }
+        .title{
+            width: 100%;
+        }
     }
 
     .search-wrapper {
-        margin: 5% 0 -20% 0;
+        margin: 5% 0 -10% 0;
         .search-form {
             border-bottom: 1px solid silver;
             padding-left: 1%;
