@@ -13,6 +13,7 @@ export default {
 <style scoped>
 #header {
   font-size: 3em;
+  display: flex;
 }
 
 </style>
