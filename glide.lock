@@ -1,5 +1,5 @@
-hash: 22dc944d16986622d07c4ed1cd42759d68c09c17a9fda7606a9229f392fa81b0
-updated: 2018-10-31T14:03:14.52458923+01:00
+hash: a3ee25856138182e8cf9b94bf5d05322c9b22ade8a5c81a8e8fb81aa5fb89564
+updated: 2018-10-31T17:05:14.700795803+01:00
 imports:
 - name: cloud.google.com/go
   version: 3b1ae45394a234c385be014e9a488f2bb6eef821
@@ -59,6 +59,8 @@ imports:
   version: 6633656539c1639d9d78127b7d47c622b5d7b6dc
 - name: github.com/json-iterator/go
   version: f2b4162afba35581b6d4a50d3b8f34e33c144682
+- name: github.com/konsorten/go-windows-terminal-sequences
+  version: 5c8c8bd35d3832f5d134ae1e1e375b69a4d25242
 - name: github.com/modern-go/concurrent
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
