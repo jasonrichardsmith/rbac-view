@@ -1,9 +1,9 @@
 package html
 
 import (
-	"fmt"
-	"log"
 	"net/http"
+
+	log "github.com/Sirupsen/logrus"
 
 	"github.com/jasonrichardsmith/rbac-view/matrix"
 	"github.com/jasonrichardsmith/rbac-view/render"
@@ -37,7 +37,7 @@ func (hr *HtmlRenderer) Render() error {
 			log.Println(err)
 		}
 	})
-	fmt.Println("serving RBAC View and http://localhost:8800")
+	log.Info("serving RBAC View and http://localhost:8800")
 	return http.ListenAndServe(":8800", nil)
 
 }

@@ -1,5 +1,5 @@
-hash: 4121da5a574c25ada036531d49c8a622d1630a9ba74db5aed480bc5e0803e37a
-updated: 2018-07-19T21:18:47.186181644+01:00
+hash: 22dc944d16986622d07c4ed1cd42759d68c09c17a9fda7606a9229f392fa81b0
+updated: 2018-10-31T14:03:14.52458923+01:00
 imports:
 - name: cloud.google.com/go
   version: 3b1ae45394a234c385be014e9a488f2bb6eef821
@@ -65,6 +65,8 @@ imports:
   version: 05fbef0ca5da472bbf96c9322b84a53edc03c9fd
 - name: github.com/peterbourgon/diskv
   version: 5f041e8faa004a95c88a202771f4cc3e991971e6
+- name: github.com/Sirupsen/logrus
+  version: ad15b42461921f1fb3529b058c6786c6a45d5162
 - name: github.com/spf13/pflag
   version: 583c0c0531f06d5278b7d917446061adc344b5cd
 - name: golang.org/x/crypto
@@ -80,6 +82,8 @@ imports:
   - http2/hpack
   - idna
   - lex/httplex
+  - webdav
+  - webdav/internal/xml
 - name: golang.org/x/oauth2
   version: a6bd8cefa1811bd24b86f8902872e4e8225f74c4
   subpackages:

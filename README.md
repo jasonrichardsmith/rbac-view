@@ -3,9 +3,7 @@
 # RBAC View
 
 
-
 ![RBAC View Screenshot](img/screen.png?raw=true)
-
 
 
 RBAC  View is a tool to visualize your RBAC permissions. 
@@ -13,6 +11,13 @@ RBAC  View is a tool to visualize your RBAC permissions.
 ## Current Status
 
 This project is considered prerelease and is under active development.
+
+## Install with Krew
+
+You can install as a kubectl plugin by using [krew](https://github.com/GoogleContainerTools/krew)
+```bash
+kubectl krew install rbac-view
+```
 
 ## Building
 
