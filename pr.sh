@@ -7,13 +7,13 @@ export PATH=${PATH}:${CURRENT_DIR}/${HUB}/bin
 export WINDOWS_SHA=$(sha256sum bin/windows/rbac-view | awk '{ print $1 }' )
 export LINUX_SHA=$(sha256sum bin/linux/rbac-view | awk '{ print $1 }' )
 export DARWIN_SHA=$(sha256sum bin/darwin/rbac-view | awk '{ print $1 }' )
-git clone git@github.com:jasonrichardsmith/krew-index.git
-cat rbac-view.krew.template.yaml | envsubst > krew-index/plugins/rbac-view.yaml
+hub clone git@github.com:jasonrichardsmith/krew-index.git
+hub rbac-view.krew.template.yaml | envsubst > krew-index/plugins/rbac-view.yaml
 cd krew-index
-git checkout -b ${TRAVIS_TAG}
-git add plugins/rbac-view.yaml
-git commit -m 'Release ${TRAVIS_TAG}'
-git push origin ${TRAVIS_TAG} --force
+hub checkout -b ${TRAVIS_TAG}
+hub add plugins/rbac-view.yaml
+hub commit -m 'Release ${TRAVIS_TAG}'
+hub push origin ${TRAVIS_TAG} --force
 hub pull-request \
 	--base="GoogleContainerTools:master" \
 	--head="jasonrichardsmith/krew-index:${TRAVIS_TAG}" \
