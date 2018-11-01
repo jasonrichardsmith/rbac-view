@@ -3,6 +3,7 @@ package matrix
 import (
 	"sync"
 
+	log "github.com/Sirupsen/logrus"
 	"github.com/jasonrichardsmith/rbac-view/client"
 	rbac "k8s.io/api/rbac/v1"
 )
@@ -20,16 +21,34 @@ func New(c client.Client) Builder {
 }
 
 func (mb MatrixBuilder) Build() (Matrices, error) {
+	var wg sync.WaitGroup
+	wg.Add(2)
 	ms := Matrices{
 		ClusterRoles: NewMatrix(),
 		Roles:        NewMatrix(),
 	}
-	err := ms.ClusterRoles.getClusterLevel(mb.client)
-	if err != nil {
-		return ms, err
-	}
-	err = ms.Roles.getNamespaceLevel(mb.client)
-	return ms, nil
+	var err error
+	go func() {
+
+		log.Info("Building Matrix for ClusterRoles")
+		crerr := ms.ClusterRoles.getClusterLevel(mb.client)
+		log.Info("Built Matrix for ClusterRoles")
+		wg.Done()
+		if crerr != nil {
+			err = crerr
+		}
+	}()
+	go func() {
+		log.Info("Building Matrix for Roles")
+		rerr := ms.Roles.getNamespaceLevel(mb.client)
+		log.Info("Built Matrix for Roles")
+		wg.Done()
+		if rerr != nil {
+			err = rerr
+		}
+	}()
+	wg.Wait()
+	return ms, err
 
 }
 

@@ -3,7 +3,8 @@ package main
 
 import (
 	"flag"
-	"log"
+
+	log "github.com/Sirupsen/logrus"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
@@ -18,12 +19,12 @@ var (
 )
 
 func init() {
-
 	flag.StringVar(&rendertype, "render", "html", "render type: json, html")
 }
 
 func main() {
 	flag.Parse()
+	log.Info("Getting K8s client")
 	c, err := client.New()
 	if err != nil {
 		log.Fatal(err)
