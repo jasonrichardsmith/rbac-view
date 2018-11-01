@@ -3,7 +3,8 @@ go: 1.9
 services:
 - docker
 
-script: 
+script:
+  - ./pr.sh
   - make builddocker
   - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make releases; fi 
 
