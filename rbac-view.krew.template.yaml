@@ -17,7 +17,7 @@ kind: Plugin
 metadata:
   name: rbac-view
 spec:
-  version: "${TRAVIS_TAG}"
+  version: "${TAG}"
   shortDescription: A tool to visualize your RBAC permissions.
   caveats: |
     Run "kubectl rbac-view" to open a browser with an html view of your permissions.
