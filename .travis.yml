@@ -4,10 +4,8 @@ services:
 - docker
 
 script:
-  - make releases
-  - make krew-index
   - make builddocker
-  - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make releases; fi 
+  - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make full-release; fi 
 
 deploy:
   - provider: releases
