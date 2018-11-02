@@ -3,9 +3,9 @@ go: 1.9
 services:
 - docker
 
-script: 
+script:
   - make builddocker
-  - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make releases; fi 
+  - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make full-release; fi 
 
 deploy:
   - provider: releases

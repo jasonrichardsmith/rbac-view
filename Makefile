@@ -1,5 +1,6 @@
 DOMAIN="jasonrichardsmith"
 APP="rbac-view"
+HUB="hub-linux-amd64-2.6.0"
 USERID=$(shell id -u)
 GROUPID=$(shell id -g)
 
@@ -59,3 +60,31 @@ releases:
 	tar -czvf rbac-view.$(TAG).linux.tar.gz bin/linux/rbac-view
 	tar -czvf rbac-view.$(TAG).windows.tar.gz bin/windows/rbac-view
 	tar -czvf rbac-view.$(TAG).darwin.tar.gz bin/darwin/rbac-view
+
+.PHONY: krew-index
+krew-index:
+	curl -O -L https://github.com/github/hub/releases/download/v2.6.0/$(HUB).tgz
+	tar -xzvf $(HUB).tgz
+	git clone https://github.com/jasonrichardsmith/krew-index.git
+	$(eval CURRENT_DIR=$(shell pwd))
+	$(eval export TAG)
+	$(eval export WINDOWS_SHA=$(shell sha256sum bin/windows/rbac-view | awk '{ print $$1 }' ))
+	$(eval export LINUX_SHA=$(shell sha256sum bin/linux/rbac-view | awk '{ print $$1 }' ))
+	$(eval export DARWIN_SHA=$(shell sha256sum bin/darwin/rbac-view | awk '{ print $$1 }' ))
+	envsubst < rbac-view.krew.template.yaml > krew-index/plugins/rbac-view.yaml
+	cd krew-index && \
+		git checkout -b $(TAG) && \
+		cat plugins/rbac-view.yaml && \
+		git add plugins/rbac-view.yaml && \
+		git commit -m 'Release $(TAG)' && \
+		git remote add krew-index \
+		https://$(GITHUB_TOKEN)@github.com/jasonrichardsmith/krew-index.git > /dev/null 2>&1 && \
+		git push --quiet --set-upstream krew-index $(TAG) --force
+
+	$(CURRENT_DIR)/$(HUB)/bin/hub pull-request \
+		--base="GoogleContainerTools:master" \
+		--head="jasonrichardsmith/krew-index:${TAG}" \
+		--message="Update rbac-view ${TAG}"
+
+.PHONY: full-release
+full-release: | releases krew-index 
