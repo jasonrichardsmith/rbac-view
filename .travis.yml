@@ -4,7 +4,7 @@ services:
 - docker
 
 script:
-  - ./pr.sh
+  - make krew-index
   - make builddocker
   - if [ -n "$TRAVIS_TAG" ]; then TAG=$TRAVIS_TAG make releases; fi 
 
