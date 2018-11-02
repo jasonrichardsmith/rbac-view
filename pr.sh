@@ -8,7 +8,7 @@ export WINDOWS_SHA=$(sha256sum bin/windows/rbac-view | awk '{ print $1 }' )
 export LINUX_SHA=$(sha256sum bin/linux/rbac-view | awk '{ print $1 }' )
 export DARWIN_SHA=$(sha256sum bin/darwin/rbac-view | awk '{ print $1 }' )
 hub clone https://github.com/jasonrichardsmith/krew-index.git
-hub rbac-view.krew.template.yaml | envsubst > krew-index/plugins/rbac-view.yaml
+cat rbac-view.krew.template.yaml | envsubst > krew-index/plugins/rbac-view.yaml
 cd krew-index
 hub checkout -b ${TRAVIS_TAG}
 hub add plugins/rbac-view.yaml
