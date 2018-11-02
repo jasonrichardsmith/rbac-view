@@ -76,6 +76,7 @@ krew-index:
 	envsubst < rbac-view.krew.template.yaml > krew-index/plugins/rbac-view.yaml
 	cd krew-index && \
 		git checkout -b $(TAG) && \
+		cat plugins/rbac-view.yaml && \
 		git add plugins/rbac-view.yaml && \
 		git commit -m 'Release $(TAG)' && \
 		git remote add krew-index \
