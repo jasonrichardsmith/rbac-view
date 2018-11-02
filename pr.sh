@@ -13,7 +13,7 @@ cd krew-index
 git checkout -b ${TRAVIS_TAG}
 git add plugins/rbac-view.yaml
 git commit -m 'Release ${TRAVIS_TAG}'
-git remote add krew-index https://${GITHUB_TOKEN}@jasonrichardsmith/krew-index.git > /dev/null 2>&1
+git remote add krew-index https://${GITHUB_TOKEN}@github.com/jasonrichardsmith/krew-index.git > /dev/null 2>&1
 git push --quiet --set-upstream krew-index ${TRAVIS_TAG} --force
 
 hub pull-request \
