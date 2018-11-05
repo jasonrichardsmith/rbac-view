@@ -76,7 +76,7 @@ krew-index:
 		git checkout -b $(TAG) && \
 		cat plugins/rbac-view.yaml && \
 		git add plugins/rbac-view.yaml && \
-		git commit -m 'Release $(TAG)' && \
+		git commit --author="jasonrichardsmith <jasonrichardsmith@gmail.com>" -m 'Release $(TAG)' && \
 		git remote add krew-index \
 		https://$(GITHUB_TOKEN)@github.com/jasonrichardsmith/krew-index.git > /dev/null 2>&1 && \
 		git push --quiet --set-upstream krew-index $(TAG) --force && \
