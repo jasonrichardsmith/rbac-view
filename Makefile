@@ -79,12 +79,11 @@ krew-index:
 		git commit -m 'Release $(TAG)' && \
 		git remote add krew-index \
 		https://$(GITHUB_TOKEN)@github.com/jasonrichardsmith/krew-index.git > /dev/null 2>&1 && \
-		git push --quiet --set-upstream krew-index $(TAG) --force
-
-	$(CURRENT_DIR)/$(HUB)/bin/hub pull-request \
-		--base="GoogleContainerTools:master" \
-		--head="jasonrichardsmith/krew-index:${TAG}" \
-		--message="Update rbac-view ${TAG}"
+		git push --quiet --set-upstream krew-index $(TAG) --force && \
+		$(CURRENT_DIR)/$(HUB)/bin/hub pull-request \
+			--base="GoogleContainerTools:master" \
+			--head="jasonrichardsmith/krew-index:${TAG}" \
+			--message="Update rbac-view ${TAG}"
 
 .PHONY: full-release
 full-release: | releases krew-index 
