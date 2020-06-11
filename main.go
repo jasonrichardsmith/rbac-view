@@ -2,9 +2,11 @@
 package main
 
 import (
+	"context"
 	"flag"
+	"time"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 
 	_ "k8s.io/client-go/plugin/pkg/client/auth"
 
@@ -24,8 +26,12 @@ func init() {
 
 func main() {
 	flag.Parse()
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*2)
+	defer cancel()
+
 	log.Info("Getting K8s client")
-	c, err := client.New()
+	c, err := client.New(ctx)
 	if err != nil {
 		log.Fatal(err)
 	}

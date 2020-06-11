@@ -33,7 +33,7 @@ buildnpmdocker:
 npmdep:
 	cd frontend; npm install
 godep: godepfb
-	glide install
+	go get -v -t ./...
 	go generate
 godepfb:
 	go get -u github.com/UnnoTed/fileb0x
