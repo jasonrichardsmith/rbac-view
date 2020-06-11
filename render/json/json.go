@@ -5,7 +5,7 @@ import (
 	"io"
 	"os"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/jasonrichardsmith/rbac-view/matrix"
 	"github.com/jasonrichardsmith/rbac-view/render"
 )

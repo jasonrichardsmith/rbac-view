@@ -3,7 +3,7 @@ package matrix
 import (
 	"sync"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	"github.com/jasonrichardsmith/rbac-view/client"
 	rbac "k8s.io/api/rbac/v1"
 )

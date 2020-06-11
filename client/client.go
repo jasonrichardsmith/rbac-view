@@ -1,13 +1,14 @@
 package client
 
 import (
+	"context"
 	"errors"
 	"flag"
 	"os"
 	"path/filepath"
 	"sync"
 
-	log "github.com/Sirupsen/logrus"
+	log "github.com/sirupsen/logrus"
 	rbac "k8s.io/api/rbac/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -40,9 +41,10 @@ func defaultKubeConfig() string {
 
 type Client struct {
 	k8sclient *kubernetes.Clientset
+	ctx       context.Context
 }
 
-func New() (client Client, err error) {
+func New(ctx context.Context) (client Client, err error) {
 	if !flag.Parsed() {
 		flag.Parse()
 	}
@@ -57,25 +59,26 @@ func New() (client Client, err error) {
 
 	// create the clientset
 	client.k8sclient, err = kubernetes.NewForConfig(config)
+	client.ctx = ctx
 	return
 }
 
 func (c *Client) GetClusterRoleBindings() ([]rbac.ClusterRoleBinding, error) {
 	log.Info("Retrieving ClusterRoleBindings")
-	rolebindings, err := c.k8sclient.Rbac().ClusterRoleBindings().List(metav1.ListOptions{})
+	rolebindings, err := c.k8sclient.RbacV1().ClusterRoleBindings().List(c.ctx, metav1.ListOptions{})
 	log.Infof("Retrieved %v ClusterRoleBindings", len(rolebindings.Items))
 	return rolebindings.Items, err
 }
 
 func (c *Client) GetClusterRole(name string) (*rbac.ClusterRole, error) {
 	log.Infof("Retrieving ClusterRole %v", name)
-	return c.k8sclient.Rbac().ClusterRoles().Get(name, metav1.GetOptions{})
+	return c.k8sclient.RbacV1().ClusterRoles().Get(c.ctx, name, metav1.GetOptions{})
 }
 
 func (c *Client) GetRoleBindings() ([]rbac.RoleBinding, error) {
 	log.Infof("Retrieving RoleBindings")
 	rb := make([]rbac.RoleBinding, 0)
-	nss, err := c.k8sclient.Core().Namespaces().List(metav1.ListOptions{})
+	nss, err := c.k8sclient.CoreV1().Namespaces().List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		return rb, err
 	}
@@ -100,7 +103,7 @@ func (c *Client) GetRoleBindings() ([]rbac.RoleBinding, error) {
 
 func (c *Client) getNSRoleBindings(namespace string, rb chan<- []rbac.RoleBinding, errs chan<- error) {
 	log.Infof("Retrieving RoleBindings for Namespace %v", namespace)
-	rolebindings, err := c.k8sclient.Rbac().RoleBindings(namespace).List(metav1.ListOptions{})
+	rolebindings, err := c.k8sclient.RbacV1().RoleBindings(namespace).List(c.ctx, metav1.ListOptions{})
 	if err != nil {
 		errs <- err
 		return
@@ -111,5 +114,5 @@ func (c *Client) getNSRoleBindings(namespace string, rb chan<- []rbac.RoleBindin
 
 func (c *Client) GetRole(name string, namespace string) (*rbac.Role, error) {
 	log.Infof("Retrieving Role %v in namespace %v", name, namespace)
-	return c.k8sclient.Rbac().Roles(namespace).Get(name, metav1.GetOptions{})
+	return c.k8sclient.RbacV1().Roles(namespace).Get(c.ctx, name, metav1.GetOptions{})
 }
